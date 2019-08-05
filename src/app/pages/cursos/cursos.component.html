@@ -1,0 +1,367 @@
+<h3>Formulario de Registro</h3> <label  class="text-secondary">Usuario: <small class="text-info">{{ user }}</small></label>
+<br>
+<form (ngSubmit)="addRegistro(f)" #f="ngForm" class="needs-validation mt-3 shadow p-3 mb-5 bg-white rounded" novalidate >
+    <div class="text-right">
+        <!-- <p>Origen de información a través de: <span *ngIf="!info">Teléfono</span><span *ngIf="info">Correo</span></p>
+        <button 
+        (click)="info = !info" 
+        type="button" 
+        class="btn btn-info"> 
+        Cambiar a: <span *ngIf="info">Telefono</span> <span *ngIf="!info">Correo</span>
+        </button> -->
+                  
+       
+        <div class="form-group">
+            <div class="form-check form-check-inline">
+                    <input [(ngModel)]="registro.origen" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="telefono"  #origen="ngModel">
+                    <label class="form-check-label" for="inlineRadio1">Telefono</label>
+            </div>
+            <div class="form-check form-check-inline">
+                    <input [(ngModel)]="registro.origen" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="correo" #origen="ngModel">
+                    <label class="form-check-label" for="inlineRadio2">Correo</label>
+            </div>
+        </div>
+        
+        <span>Origen de informacion por: {{origen.value}}</span>
+       
+    </div>
+    <hr>
+    <!-- Servicios -->
+    <div class="form-group row">
+        <label class="col-md-2 col-form-label">Servicios</label>
+        <div class="col-md-4">
+            <select 
+                    name="servicio" 
+                    class="form-control" 
+                    (change)="onSelect($event.target.value)"
+                    [(ngModel)]="registro.servicio" 
+                    required
+                    #servicio="ngModel"
+                    [ngClass]="{'is-invalid': servicio?.errors?.required, 'is-valid' : true}"
+                    >
+                <option *ngFor="let servicio of servicios" value={{servicio.id}}>{{servicio.name}}</option>
+            </select>
+        </div>
+        <label class="col-md-2 col-form-label animated zoomIn" *ngIf="servicio?.value">Tipo de Servicios</label>
+        <div class="col-md-4 animated zoomIn" *ngIf="servicio?.value">
+            <select 
+                    class="form-control" 
+                    name="tipoServicio" 
+                    [(ngModel)]="registro.tiposervicio" 
+                    required
+                    #tipoServicio="ngModel"
+                    [ngClass]="{'is-invalid': tipoServicio?.errors?.required, 'is-valid' : true}">
+                <option *ngFor="let state of states " value={{state.name}}>{{state.name}}</option>
+            </select>
+        </div>
+    </div>
+
+    <hr>
+    <div>
+        <button (click)="mostrar = !mostrar" type="button" class="btn btn-primary"> Persona / Empresa </button>
+    </div>
+    <hr>
+    <div class="animated fadeInDown" *ngIf="mostrar">
+        <!-- Datos empresa -->
+
+        <label>Datos Empresa</label>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">NIT</label>
+            <div class="col-4">
+                <input 
+                name="nit" 
+                type="number" 
+                class="form-control" 
+                placeholder="NIT" 
+                autocomplete="off" 
+                [required]="origen.value=='telefono'"
+                [(ngModel)]="registro.nit"
+                #nit="ngModel"
+                [ngClass]="{'is-invalid': nit?.errors?.required, 'is-valid' : nit?.value}"
+                >
+            </div>
+
+
+            <label class="col-2 col-form-label">Nombre Empresa:</label>
+            <div class="col-4">
+                <input 
+                        name="nombreE" 
+                        [(ngModel)]="registro.nombreemp" 
+                        type="text" 
+                        class="form-control" 
+                        [required]="origen.value=='telefono'"
+                        #nombreE="ngModel"
+                        [ngClass]="{'is-invalid': nombreE?.errors?.required, 'is-valid' : nombreE?.value}"
+                        >
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Tel. Empresa</label>
+            <div class="col-4">
+                <input 
+                name="telefonoE" 
+                [(ngModel)]="registro.teleemp" 
+                type="tel" 
+                class="form-control"
+                placeholder="Telefono Empresa" 
+                autocomplete="off"
+                max="13"
+                #telefonoE="ngModel"
+                [required]="origen.value=='telefono'"
+                [ngClass]="{'is-invalid': telefonoE?.errors?.required, 'is-valid' : telefonoE?.value}"
+                >
+            </div>
+        </div>
+        <hr>
+
+        <!-- Persona Natural -->
+        <label>Contacto</label>
+    </div>
+    <br>
+    <div class="form-group row" *ngIf="!mostrar">
+        <label class="col-2 col-form-label">Tipo Documento</label>
+        <div class="col-4">
+
+            <select 
+                    class="custom-select" 
+                    name="documento" 
+                    [(ngModel)]="registro.tipodoc"
+                    required
+                    #documento="ngModel"
+                    [ngClass]="{'is-invalid': documento?.errors?.required, 'is-valid' : documento?.value}">
+                    >
+                <option selected> C.C.</option>
+                <option value="N.N.">N.N.</option>
+                <option value="C.C.">C.E.</option>
+                <option value="Pasaporte">Pasaporte</option>
+                <option value="P.E.P.">P.E.P.</option>
+                <option value="T.I.">T.I.</option>
+            </select>
+        </div>
+        <label *ngIf="documento?.value != 'N.N.'" class="col-2 col-form-label">Numero Doc.</label>
+        <div class="col-4" *ngIf="documento?.value != 'N.N.'">
+            <input 
+                    name="nDocumento" 
+                    [(ngModel)]="registro.nit" 
+                    type="text" 
+                    class="form-control"
+                    placeholder="Numero de Identidad" 
+                    autocomplete="off" 
+                    minlength="1" 
+                    required 
+                    #nDocumento="ngModel"
+                    [ngClass]="{'is-invalid': nDocumento?.errors?.required || nDocumento?.errors?.minlength, 'is-valid' : nDocumento?.value}"
+                    >
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Primer Nombre</label>
+        <div class="col-4" *ngIf="!info">
+            <input 
+                    name="primerN" 
+                    [(ngModel)]="registro.primernom" 
+                    style="text-transform:uppercase;"
+                    type="text" 
+                    class="form-control"
+                    placeholder="Primer Nombre" 
+                    autocomplete="off" 
+                    minlength="2" 
+                    [required]="origen.value=='telefono'"
+                    pattern="[A-Za-zÑñ]+"
+                    #primerN="ngModel"
+                    [ngClass]="{'is-invalid':  primerN?.errors?.required  || primerN?.errors?.minlength || primerN?.errors?.pattern  , 'is-valid' : primerN?.value}"
+                    >
+                    <div class="invalid-feedback" *ngIf="primerN?.errors?.minlength">
+                      por lo menos {{ primerN.errors.minlength.requiredLength }} caracteres
+                    </div>
+                    <div class="invalid-feedback" *ngIf="primerN?.errors?.pattern">
+                      Solo letras [Aa-Zz]
+                    </div>
+        </div>
+        <label class="col-2 col-form-label">Segundo nombre</label>
+        <div class="col-4">
+            <input 
+                    name="segundoN" 
+                    [(ngModel)]="registro.segundonom" 
+                    type="text" 
+                    class="form-control" 
+                    style="text-transform:uppercase;"
+                    placeholder="Segundo Nombre" 
+                    autocomplete="off"
+                    minlength="2"
+                    pattern="[A-Za-z]+\s?[A-Za-z]+"
+                    #segundoN="ngModel"
+                    [ngClass]="{'is-invalid': segundoN?.errors?.minlength || segundoN?.errors?.pattern, 'is-valid' : segundoN?.value}"
+                    >
+                    <div class="invalid-feedback" *ngIf="segundoN?.errors?.minlength">
+                        por lo menos {{ segundoN.errors.minlength.requiredLength }} caracteres
+                    </div>
+                    <!-- pattern="[A-Za-z]+\s+" -->
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Primer Apellido</label>
+        <div class="col-4" *ngIf="!info">
+            <input 
+                    name="primerA" 
+                    [(ngModel)]="registro.primerape" 
+                    type="text" 
+                    class="form-control"
+                    placeholder="Primer Apellido *" 
+                    style="text-transform:uppercase;"
+                    autocomplete="off"
+                    pattern="[a-zA-ZÑñ]+"
+                    [required]="origen.value=='telefono'"
+                    minlength="2"
+                    #primerA="ngModel"
+                    [ngClass]="{'is-invalid': primerA?.errors?.required || primerA?.errors?.minlength || primerA?.errors?.pattern, 'is-valid' : primerA?.value}"
+                    >
+
+                    <div class="invalid-feedback" *ngIf="primerA?.errors?.minlength">
+                      por lo menos {{ primerA.errors.minlength.requiredLength }} caracteres
+                    </div>
+                    <div class="invalid-feedback" *ngIf="primerA?.errors?.pattern">
+                      Solo letras [Aa-Zz]
+                    </div>
+        </div>
+
+        <label class="col-2 col-form-label">Segundo Apellido</label>
+        <div class="col-4">
+            <input 
+                    name="segundoA" 
+                    [(ngModel)]="registro.segundoape" 
+                    type="text" class="form-control"
+                    placeholder="Segundo Apellido" 
+                    style="text-transform:uppercase;"
+                    autocomplete="off" 
+                    pattern="[A-Za-z]+\s?[A-Za-z]+"
+                    minlength="2"
+                    #segundoA="ngModel"
+                    [ngClass]="{'is-invalid': segundoA?.errors?.minlength || segundoA?.errors?.pattern , 'is-valid' : segundoA?.value}"
+                    >
+                    <div class="invalid-feedback" *ngIf="segundoA?.errors?.minlength">
+                        por lo menos {{ segundoA.errors.minlength.requiredLength }} caracteres
+                    </div>
+        </div>
+    </div>
+
+    <!-- area -->
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Ciudad</label>
+        <div class="col-4">
+            <select 
+                    name="ciudad" 
+                    class="form-control" 
+                    (change)="onSelectCiudad($event.target.value)"
+                    [(ngModel)]="registro.ciudad" 
+                    [required]="origen.value=='telefono'"
+                    #ciudad="ngModel"
+                    [ngClass]="{'is-invalid': ciudad?.errors?.required, 'is-valid' : ciudad?.value}"
+                    >
+                <option *ngFor="let ciudad of ciudades" value={{ciudad.id}}>{{ciudad.name}}</option>
+            </select>
+        </div>
+
+        <label class="col-2 col-form-label" *ngIf="!otra">Localidad/Municipio</label>
+        <div class="col-4" *ngIf="!otra">
+            <select 
+                    class="form-control" 
+                    name="municipio" 
+                    [(ngModel)]="registro.munlocalidad" 
+                    [required]="origen.value=='telefono'"
+                    #municipio="ngModel"
+                    [ngClass]="{'is-invalid': municipio?.errors?.required, 'is-valid' : municipio.value}"
+                    >
+                <option *ngFor="let municipio of municipios " value="{{municipio.name}}">{{municipio.name}}
+                </option>
+            </select>
+        </div>
+
+        <label class="col-2 col-form-label" *ngIf="otra" >Ingrese Ciudad</label>
+        <div class="col-4" *ngIf="otra">
+            <input 
+                    name="municipio" 
+                    [(ngModel)]="registro.munlocalidad" 
+                    type="text" 
+                    class="form-control"
+                    autocomplete="off"
+                    required
+                    #municipio="ngModel"
+                    [ngClass]="{'is-invalid': municipio?.errors?.required, 'is-valid' : true}"
+                    >
+        </div>
+    </div>
+
+    <!-- Datos de contacxto -->
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Fijo/Celular</label>
+        <div class="col-4">
+            <input 
+                    name="telCel" 
+                    [(ngModel)]="registro.telcel" 
+                    type="number" 
+                    class="form-control"
+                    placeholder="Telefono / Celular" 
+                    autocomplete="off" 
+                    [required]="origen.value=='telefono'"
+                    #telCel="ngModel"
+                    [ngClass]="{'is-invalid': telCel?.errors?.required, 'is-valid' : telCel?.value}"
+                    >
+        </div>
+        <label class="col-2 col-form-label">Email</label>
+        <div class="col-4">
+            <input 
+            name="correo" 
+            [(ngModel)]="registro.correo" 
+            type="email" 
+            class="form-control" 
+            style="text-transform:lowercase;"
+            placeholder="Ejemplo: micorreo@dominio.com" 
+            autocomplete="off" 
+            required 
+            pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$"
+            #email="ngModel"
+            [ngClass]="{'is-invalid': email?.errors?.required ||  email?.errors?.pattern, 'is-valid' : true}"
+            >
+            <div class="invalid-feedback" *ngIf="email?.errors?.pattern">
+                No cumple con el patron establecido
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label" *ngIf="!mostrar">Fecha Nac.</label>
+        <div class="col-4" *ngIf="!mostrar">
+            <input name="fecha" [(ngModel)]="registro.fechanac" type="date" class="form-control">
+        </div>
+        <label class="col-2 col-form-label">Observación</label>
+        <div class="col-4">
+            <textarea 
+                        class="form-control" 
+                        name="observacion"
+                        [(ngModel)]="registro.observacion" 
+                        placeholder="Haga una breve descripción" 
+                        rows="1" 
+                        autocomplete="off"
+                        minlength="2"
+                        #observacionS="ngModel"
+                        [ngClass]="{'is-invalid': observacionS?.error?.minlength}"
+                        >
+                        </textarea>
+                        <div class="invalid-feedback" *ngIf="observacionS?.errors?.minlength">
+                            por lo menos {{ observacionS.errors.minlength.requiredLength }} caracteres
+                        </div>
+        </div>
+    </div>
+
+    <button [disabled]="!f.valid" type="submit" class="btn btn-primary" >Guardar</button>
+    
+</form>
