@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+// Reloader
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 // relizar peticiones http
 import { HttpClientModule } from '@angular/common/http';
@@ -49,6 +51,14 @@ import { TableComponent } from './pages/table/table.component';
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
     AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
     AngularFireStorageModule, // imports firebase/storage only needed for storage features,
+    NgxLoadingModule.forRoot({
+      animationType: ngxLoadingAnimationTypes.wanderingCubes,
+      backdropBackgroundColour: 'rgba(0,0,3,0.1)', 
+      backdropBorderRadius: '4px',
+      primaryColour: '#FE2E2E', 
+      secondaryColour: '#FE2E2E', 
+      tertiaryColour: '#FE2E2E'
+    })
     
   ],
   providers: [

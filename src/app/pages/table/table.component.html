@@ -1,45 +1,72 @@
-<div class="table-responsive  overflow-auto">
-    <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-width: 1600px; max-height: 600px;">
-      <table class="table-bordered table-sm" id="myTable">
-        <thead class="table-dark">
-          <tr>
-            <th scope="col">Registro</th>
-            <th scope="col">I.D.</th>
-            <th scope="col">Nombre Empresa.</th>
-            <th scope="col">Tel. Empresa.</th>
-            <th scope="col">Tel. Personal.</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Apellido</th>
-            <th scope="col">Ciudad</th>
-            <th scope="col">Localidad</th>
-            <th scope="col">Servicio</th>
-            <th scope="col">Tipo de Servicio</th>
-            <th scope="col">Correo</th>
-            <th scope="col">Observación</th>
-            <th scope="col">Usuario</th>
-            <th scope="col">Fecha Registro</th>
-            <th scope="col">Origen</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let r of registros ">
-            <td>{{r.id}}</td>
-            <td>{{r.nit}}</td>
-            <td>{{r.nombreemp}}</td>
-            <td>{{r.teleemp}}</td>
-            <td>{{r.telcel}}</td>
-            <td>{{r.primernom}}</td>
-            <td>{{r.primerape}}</td>
-            <td>{{r.ciudad}}</td>
-            <td>{{r.munlocalidad}}</td>
-            <td>{{r.servicio}}</td>
-            <td>{{r.tiposervicio}}</td>
-            <td>{{r.correo}}</td>
-            <td>{{r.observacion}}</td>
-            <td>{{r.usuario}}</td>
-            <td>{{r.fechareg}} </td>
-            <td>{{r.origen}}</td>
-          </tr>
-      </table>
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <input type="date" class="form-control" name="fecha" [(ngModel)]="fecha" (change)="filtrar(fecha)">
     </div>
+    <div class="col-2">
+
+      <h6>Total registros: {{registros.length}}</h6>
+    </div>
+    <div class="col-2">
+      <button *ngIf="mostrar" class="btn btn-info" (click)="ngOnInit()">Borrar Filtro</button>
+    </div>
+    <div class="col-2">
+      <button class="btn btn-success" type="button" (click)="exportAsXLSX()">Descargar</button>
+    </div>
+
   </div>
+</div>
+
+
+
+<div class="table-responsive  overflow-auto">
+  <div class="overflow-auto p-3 mb-3 mb-md-0 mr-md-3 bg-light" style="max-width: 1600px; max-height: 600px;">
+    <table class="table-bordered table-sm" id="myTable">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Registro</th>
+          <th scope="col">I.D.</th>
+          <th scope="col">Nombre Empresa.</th>
+          <th scope="col">Tel. Empresa.</th>
+          <th scope="col">Tel. Personal.</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Apellido</th>
+          <th scope="col">Ciudad</th>
+          <th scope="col">Localidad</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Tipo de Servicio</th>
+          <th scope="col">Correo</th>
+          <th scope="col">Observación</th>
+          <th scope="col">Usuario</th>
+          <th scope="col">Fecha Registro</th>
+          <th scope="col">Hora Registro</th>
+          <th scope="col">Origen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of registros">
+          <td>{{r.Registro}}</td>
+          <td>{{r.ID}}</td>
+          <td>{{r.Nombre_Empresa}}</td>
+          <td>{{r.Tel_Empresa}}</td>
+          <td>{{r.Tel_Personal}}</td>
+          <td>{{r.Nombre}}</td>
+          <td>{{r.Apellido}}</td>
+          <td>{{r.Ciudad}}</td>
+          <td>{{r.Localidad}}</td>
+          <td>{{r.Servicio}}</td>
+          <td>{{r.Tipo_Servicio}}</td>
+          <td>{{r.Correo}}</td>
+          <td>{{r.Observacion}}</td>
+          <td>{{r.Usuario}}</td>
+          <td>{{r.Fecha_Registro}}</td>
+          <td>{{r.Hora_Registro}}</td>
+          <td>{{r.Origen}}</td>
+        </tr>
+    </table>
+  </div>
+</div>
+
+
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+

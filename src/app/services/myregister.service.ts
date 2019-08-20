@@ -15,7 +15,11 @@ export class MyregisterService {
   getRegistros() {
     return this.http.get(`${this.API_URI}/registros`);
   }
-
+  
+  getRegistrosFil(fecha:string) {
+    return this.http.get(`${this.API_URI}/registros/${fecha}`);
+  }
+  
   getRegistro(id: string) {
     return this.http.get(`${this.API_URI}/registros/${id}`);
   }
